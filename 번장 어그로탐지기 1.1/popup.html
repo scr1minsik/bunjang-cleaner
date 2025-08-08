@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>가격어그로 감지기 설정</title>
+  <style>
+    body {
+      padding: 15px;
+      font-family: Arial, sans-serif;
+      width: 270px;
+      margin: 0;
+    }
+    h2 {
+      margin-bottom: 10px;
+    }
+    label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      cursor: pointer;
+      user-select: none;
+    }
+    input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+    }
+    .note {
+      margin-top: 15px;
+      font-size: 12px;
+      color: gray;
+    }
+    #notBunjangMessage {
+      font-size: 14px;
+      color: black;
+    }
+    #notBunjangMessage strong {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .contact {
+      margin-top: 20px;
+      font-size: 12px;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <!-- 번개장터 접속 시 보이는 설정 UI -->
+  <div id="bunjangUI" style="display:none;">
+    <h2>가격어그로 감지기 설정</h2>
+    <label for="autoSearchToggle">
+      <input type="checkbox" id="autoSearchToggle" />
+      자동검색 켜기/끄기
+    </label>
+    <div class="note">
+      * 자동검색은 상품 목록에서만 작동합니다.
+    </div>
+  </div>
+
+  <!-- 번개장터 외 접속 시 보여줄 메시지 -->
+  <div id="notBunjangMessage" style="display:none;">
+    <strong>어그로탐지기는 번개장터에서만 작동해요</strong>
+    어그로탐지기는 번개장터에서 기능을 제공하고 있어요.<br/>
+    번개장터를 방문하셔서 설정을 진행해주세요.
+  </div>
+
+  <!-- 버그 제보 및 문의 -->
+  <div class="contact">
+    버그제보 및 문의: <a href="mailto:minsikebub@gmail.com">minsikebub@gmail.com</a>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
