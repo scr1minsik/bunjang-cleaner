@@ -48,7 +48,7 @@ document.body.prepend(banner);
         color: 'black',
         marginBottom: '10px',
       });
-      message.innerText = '허위매물 검색중!';
+      message.innerText = '테스트중입니다 검색중!';
 
       const subMessage = document.createElement('div');
       subMessage.id = 'priceAgroSubMessage';
@@ -56,7 +56,7 @@ document.body.prepend(banner);
         fontSize: '14px',  // 시간 걸리는거 글자 크기 조정하는곳
         color: 'black',
       });
-      subMessage.innerText = '시간이 조금 걸릴 수 있습니다.';
+      subMessage.innerText = '테스트중입니다';
 
       overlay.appendChild(message);
       overlay.appendChild(subMessage);
