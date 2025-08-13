@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>가격어그로 감지기 설정</title>
+  <style>
+    body {
+      padding: 15px;
+      font-family: Arial, sans-serif;
+      width: 320px;
+      margin: 0;
+    }
+    h2, h3 {
+      margin-bottom: 10px;
+    }
+    label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      cursor: pointer;
+      user-select: none;
+    }
+    input[type="checkbox"], input[type="text"] {
+      font-size: 14px;
+      padding: 4px 6px;
+    }
+    input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+    }
+    button {
+      margin-left: 6px;
+      padding: 4px 8px;
+      font-size: 14px;
+      cursor: pointer;
+      border: 1px solid #444;
+      background-color: #eee;
+      border-radius: 4px;
+      user-select: none;
+    }
+    ul {
+      list-style: none;
+      padding-left: 0;
+      max-height: 100px;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      margin-top: 4px;
+      margin-bottom: 15px;
+    }
+    li {
+      padding: 4px 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      border-bottom: 1px solid #ddd;
+    }
+    li:last-child {
+      border-bottom: none;
+    }
+    .note {
+      margin-top: 5px;
+      font-size: 12px;
+      color: gray;
+    }
+    #notBunjangMessage {
+      font-size: 14px;
+      color: black;
+    }
+    #notBunjangMessage strong {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .contact {
+      margin-top: 20px;
+      font-size: 12px;
+      color: #888;
+    }
+    #refreshBtn, #goBunjangBtn {
+      margin-top: 10px;
+      padding: 6px 10px;
+      font-size: 14px;
+      cursor: pointer;
+      border: 1px solid #444;
+      background-color: #eee;
+      border-radius: 4px;
+      user-select: none;
+    }
+    #refreshBtn {
+      display: none;
+    }
+    #goBunjangBtn {
+      display: block;
+      text-align: center;
+      text-decoration: none;
+      color: #000;
+    }
+    .delBtn {
+      background-color: #f66;
+      color: white;
+      border: none;
+      border-radius: 3px;
+      padding: 2px 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    /* ? 버튼 스타일 */
+    #negativeHelpToggle {
+      cursor: pointer;
+      background: #eee;
+      border: 1px solid #ccc;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      user-select: none;
+      margin-left: 6px;
+    }
+    #negativeHelp {
+      display: none;
+      font-size: 12px;
+      color: #555;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      padding: 6px;
+      border-radius: 4px;
+      background: #f9f9f9;
+    }
+    /* 부정 표현 제목과 ? 버튼을 한 줄에 */
+    .negative-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+    /* 고급설정 토글 버튼 스타일 - 네모박스 없애고 빨간 글씨로 */
+    #advancedToggleBtn {
+      margin-top: 15px;
+      padding: 6px 0;
+      font-size: 16px;
+      cursor: pointer;
+      background: none; /* 배경 제거 */
+      border: none; /* 테두리 제거 */
+      color: #d33; /* 빨간색 글씨 */
+      font-weight: bold;
+      user-select: none;
+      text-align: left;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: color 0.3s ease;
+    }
+    #advancedToggleBtn:hover {
+      color: #a00; /* 호버시 진한 빨간색 */
+    }
+    /* 고급설정 영역 슬라이드 애니메이션 */
+    #advancedSettings {
+      margin-top: 10px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+    #advancedSettings.open {
+      max-height: 500px; /* 충분히 크게 설정 */
+    }
+  </style>
+</head>
+<body>
+  <div id="bunjangUI" style="display:none;">
+    <h2>가격어그로 감지기 설정</h2>
+    <label for="autoSearchToggle">
+      <input type="checkbox" id="autoSearchToggle" />
+      자동검색 켜기/끄기
+    </label>
+    <div class="note">
+      * 자동검색은 상품 목록에서만 작동합니다.
+    </div>
+    <button id="refreshBtn">새로고침하기</button>
+
+    <!-- 고급설정 토글 버튼 -->
+    <button id="advancedToggleBtn">&gt; 고급 설정 관리</button>
+
+    <!-- 고급설정 내용 (처음에는 숨김) -->
+    <div id="advancedSettings">
+      <h3>탐지 키워드 관리</h3>
+      <input type="text" id="keywordInput" placeholder="키워드 입력" />
+      <button id="addKeywordBtn">추가</button>
+      <ul id="keywordList"></ul>
+
+      <div class="negative-header">
+        <h3 style="margin:0;">부정 표현 관리</h3>
+        <span id="negativeHelpToggle" title="부정 표현이란?">?</span>
+      </div>
+      <input type="text" id="negativeInput" placeholder="부정 표현 입력" />
+      <button id="addNegativeBtn">추가</button>
+      <ul id="negativeList"></ul>
+      <div id="negativeHelp">
+        부정 표현 관리는 "가격어그로" 뒤에오는 키워드를 말합니다<br/>
+        예를 들어 "가격어그로 아니지롱" , " 가격어그로 아님ㅋㅋㄹㅃㅃ" , "가격어그로일수도있고아닐수도있습니다" , "가격어그로에 대해서 알려주겠다" 등
+        가격어그로 뒤에 오는 부정적 표현을 추가하는 곳입니다.
+      </div>
+    </div>
+  </div>
+
+  <div id="notBunjangMessage" style="display:none;">
+    <strong>어그로탐지기는 번개장터에서만 작동해요</strong>
+    어그로탐지기는 번개장터에서 기능을 제공하고 있어요.<br/>
+    번개장터를 방문하셔서 설정을 진행해주세요.
+    <button id="goBunjangBtn">번장 바로가기</button>
+  </div>
+
+  <div class="contact">
+    버그제보 및 문의: <a href="mailto:minsikebub@gmail.com">minsikebub@gmail.com</a>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
